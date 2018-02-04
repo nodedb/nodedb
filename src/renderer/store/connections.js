@@ -5,13 +5,14 @@
 /* Node modules */
 
 /* Third-party modules */
+import Vue from 'vue';
 
 /* Files */
 
-const defaultState = [];
+const connections = [];
 
 for (let i = 0; i < 5; i += 1) {
-  defaultState.push({
+  connections.push({
     id: `id${i}`,
     name: `name${i}`,
   });
@@ -19,8 +20,16 @@ for (let i = 0; i < 5; i += 1) {
 
 export default {
 
+  mutations: {
+    update(state, newState) {
+      Vue.set(state, 'connections', newState);
+    },
+  },
+
   namespaced: true,
 
-  state: defaultState,
+  state: {
+    connections,
+  },
 
 };

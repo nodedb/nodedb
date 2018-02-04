@@ -66,7 +66,10 @@
 
     computed: {
       connections: {
-        get: vm => vm.$store.state.connections,
+        get: vm => vm.$store.state.connections.connections,
+        set(value) {
+          this.$store.commit('connections/update', value);
+        },
       },
 
       ...mapState({
@@ -127,7 +130,7 @@
   $breadcrumb-bar-height: 30px;
   $footer-bar-height: 30px;
   $icon-bar-height: 30px;
-  $tab-bar-height: 60px;
+  $tab-bar-height: 40px;
 
   .el-container.default-layout {
     .el-header.icon-bar {
