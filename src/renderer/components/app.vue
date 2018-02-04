@@ -88,6 +88,10 @@
     user-select: none;
   }
 
+  a {
+    outline: none !important;
+  }
+
   body {
     font: {
       family: "Open Sans";
