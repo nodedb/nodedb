@@ -16,9 +16,10 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run test:lint && npm run test:unit && npm run test:e2e",
     "test:e2e": "npm run pack && mocha test/e2e",
-    "test:lint": "eslint --ext .js,.vue src test",
+    "test:lint": "eslint --ext .js,.vue .electron-vue src test",
     "test:unit": "karma start test/unit/karma.conf.js",
-    "watch:test:e2e": "nodemon --exec 'npm run -s test:e2e' --ext .js,.ts,.vue,.json,.yml --watch ./src --watch ./test",
+    "watch:test:e2e": "nodemon --exec 'npm run -s test:e2e' --ext .js,.vue,.json,.yml --watch ./src --watch ./test",
+    "watch:test:lint": "nodemon --exec 'npm run -s test:lint' --ext .js,.vue --watch ./.electron-vue --watch ./src --watch ./test",
     "watch:test:unit": "npm run -s test:unit -- --auto-watch --no-single-run"
   },
   "build": {

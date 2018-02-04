@@ -1,19 +1,19 @@
-'use strict'
 
-process.env.BABEL_ENV = 'web'
 
-const path = require('path')
-const webpack = require('webpack')
+process.env.BABEL_ENV = 'web';
 
-const BabiliWebpackPlugin = require('babili-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
 
-let webConfig = {
+const BabiliWebpackPlugin = require('babili-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const webConfig = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
-    web: path.join(__dirname, '../src/renderer/main.js')
+    web: path.join(__dirname, '../src/renderer/main.js'),
   },
   module: {
     rules: [
@@ -23,24 +23,24 @@ let webConfig = {
         exclude: /node_modules/,
         use: {
           loader: 'eslint-loader',
-        }
+        },
       },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader'
-        })
+          use: 'css-loader',
+        }),
       },
       {
         test: /\.html$/,
-        use: 'vue-html-loader'
+        use: 'vue-html-loader',
       },
       {
         test: /\.js$/,
         use: 'babel-loader',
-        include: [ path.resolve(__dirname, '../src/renderer') ],
-        exclude: /node_modules/
+        include: [path.resolve(__dirname, '../src/renderer')],
+        exclude: /node_modules/,
       },
       {
         test: /\.vue$/,
@@ -50,10 +50,10 @@ let webConfig = {
             extractCSS: true,
             loaders: {
               sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-              scss: 'vue-style-loader!css-loader!sass-loader'
-            }
-          }
-        }
+              scss: 'vue-style-loader!css-loader!sass-loader',
+            },
+          },
+        },
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -61,9 +61,9 @@ let webConfig = {
           loader: 'url-loader',
           query: {
             limit: 10000,
-            name: 'imgs/[name].[ext]'
-          }
-        }
+            name: 'imgs/[name].[ext]',
+          },
+        },
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -71,11 +71,11 @@ let webConfig = {
           loader: 'url-loader',
           query: {
             limit: 10000,
-            name: 'fonts/[name].[ext]'
-          }
-        }
-      }
-    ]
+            name: 'fonts/[name].[ext]',
+          },
+        },
+      },
+    ],
   },
   plugins: [
     new ExtractTextPlugin('styles.css'),
@@ -85,35 +85,35 @@ let webConfig = {
       minify: {
         collapseWhitespace: true,
         removeAttributeQuotes: true,
-        removeComments: true
+        removeComments: true,
       },
-      nodeModules: false
+      nodeModules: false,
     }),
     new webpack.DefinePlugin({
-      'process.env.IS_WEB': 'true'
+      'process.env.IS_WEB': 'true',
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
   output: {
     filename: '[name].js',
-    path: path.join(__dirname, '../dist/web')
+    path: path.join(__dirname, '../dist/web'),
   },
   resolve: {
     alias: {
       '@': path.join(__dirname, '../src/renderer'),
-      'vue$': 'vue/dist/vue.esm.js'
+      vue$: 'vue/dist/vue.esm.js',
     },
-    extensions: ['.js', '.vue', '.json', '.css']
+    extensions: ['.js', '.vue', '.json', '.css'],
   },
-  target: 'web'
-}
+  target: 'web',
+};
 
 /**
  * Adjust webConfig for production settings
  */
 if (process.env.NODE_ENV === 'production') {
-  webConfig.devtool = ''
+  webConfig.devtool = '';
 
   webConfig.plugins.push(
     new BabiliWebpackPlugin(),
@@ -121,16 +121,16 @@ if (process.env.NODE_ENV === 'production') {
       {
         from: path.join(__dirname, '../static'),
         to: path.join(__dirname, '../dist/web/static'),
-        ignore: ['.*']
-      }
+        ignore: ['.*'],
+      },
     ]),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
+      'process.env.NODE_ENV': '"production"',
     }),
     new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  )
+      minimize: true,
+    }),
+  );
 }
 
-module.exports = webConfig
+module.exports = webConfig;
