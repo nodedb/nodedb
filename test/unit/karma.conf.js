@@ -35,7 +35,7 @@ module.exports = config => {
       useIframe: false
     },
     coverageReporter: {
-      dir: './coverage',
+      dir: '../../reports/coverage',
       reporters: [
         { type: 'lcov', subdir: '.' },
         { type: 'text-summary' }
