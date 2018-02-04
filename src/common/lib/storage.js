@@ -28,8 +28,8 @@ export default class Storage {
    * would try accessing the file multiple ways
    * at the same time.
    *
-   * @param {(cb: (err: Error, data?: any) => void) => void} fn
-   * @returns {Promise<any>}
+   * @param {function} fn
+   * @return {Promise<*>}
    */
   addToQueue(fn) {
     return new Promise((resolve, reject) => {
@@ -49,7 +49,7 @@ export default class Storage {
    * Deletes a value from the object
    *
    * @param {string} key
-   * @param {DataOptions} opts
+   * @param {*} opts
    * @returns {Promise<void>}
    */
   delete(key, opts) {
@@ -66,7 +66,7 @@ export default class Storage {
    *
    * Gets all the data from the store
    *
-   * @param {DataOptions} opts
+   * @param {*} opts
    * @returns {Promise<object>}
    */
   get(opts) {
@@ -78,7 +78,7 @@ export default class Storage {
    *
    * Removes the data file
    *
-   * @param {DataOptions} opts
+   * @param {*} opts
    * @returns {Promise<void>}
    */
   removeAll(opts) {
@@ -91,7 +91,7 @@ export default class Storage {
    * Saves the data
    *
    * @param {object} json
-   * @param {DataOptions} opts
+   * @param {*} opts
    * @returns {Promise<void>}
    */
   set(json, opts) {
@@ -105,7 +105,7 @@ export default class Storage {
    *
    * @param {string} key
    * @param {*} value
-   * @param {DataOptions} opts
+   * @param {*} opts
    * @returns {Promise<void>}
    */
   update(
