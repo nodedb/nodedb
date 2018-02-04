@@ -1,5 +1,5 @@
 <template lang="pug">
-  div query page
+  div query page {{ id }}
 </template>
 
 <script>
@@ -15,6 +15,26 @@
 
   export default {
     name: 'query',
+
+    created() {
+      this.fetchData();
+    },
+
+    data() {
+      return {
+        id: '',
+      };
+    },
+
+    methods: {
+      fetchData() {
+        this.id = this.$route.query.id;
+      },
+    },
+
+    watch: {
+      $route: 'fetchData',
+    },
   };
 </script>
 

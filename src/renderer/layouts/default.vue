@@ -65,8 +65,11 @@
     },
 
     computed: {
+      connections: {
+        get: vm => vm.$store.state.connections,
+      },
+
       ...mapState({
-        connections: state => state.connections,
         sidebarWidth: state => state.app.sidebarWidth,
       }),
     },

@@ -10,14 +10,14 @@ import Vuex from 'vuex';
 
 /* Files */
 import app from './app';
-// import connections from './connections';
+import connections from './connections';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     app,
-    // connections,
+    connections,
   },
   strict: process.env.NODE_ENV !== 'production',
 });
