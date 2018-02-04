@@ -20,6 +20,14 @@ for (let i = 0; i < 5; i += 1) {
 
 export default {
 
+  actions: {
+    remove({ commit, state }, id) {
+      const newState = state.connections.filter(item => item.id !== id);
+
+      commit('update', newState);
+    },
+  },
+
   mutations: {
     update(state, newState) {
       Vue.set(state, 'connections', newState);

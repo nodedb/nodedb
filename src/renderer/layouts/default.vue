@@ -27,7 +27,8 @@
             :addable="true",
             :closable="true",
             type="card",
-            @tab-click="changeTab"
+            @tab-click="changeTab",
+            @tab-remove="removeTab"
           )
             el-tab-pane(
               v-for="item in connections",
@@ -110,6 +111,15 @@
       fetchData() {
         this.activeConnection = this.$route.query.id;
       },
+
+      removeTab(id) {
+        // @todo i18nify
+        return this.$confirm('question', 'title', {
+          confirmButtonText: 'ok',
+          cancelButtonText: 'cancel',
+          type: 'warning',
+        }).then(() => this.$store.dispatch('connections/remove', id));
+      },
     },
 
     watch: {
@@ -171,6 +181,12 @@
           }
 
           .el-tabs__header {
+            .el-tabs__item {
+              box: {
+                /* Puts a weird box when app loses focus */
+                shadow: none;
+              }
+            }
           }
 
           .el-tabs__content {
