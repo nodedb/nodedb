@@ -9,7 +9,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 /* Files */
-import query from '@/pages/query';
+import query from '../pages/query';
 
 Vue.use(Router);
 
