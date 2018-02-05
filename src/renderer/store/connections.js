@@ -15,13 +15,6 @@ export default {
     loadState({ commit }) {
       const connections = [];
 
-      for (let i = 0; i < 5; i += 1) {
-        connections.push({
-          id: `id${i}`,
-          name: `name${i}`,
-        });
-      }
-
       commit('update', connections);
     },
 
