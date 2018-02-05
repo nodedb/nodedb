@@ -60,6 +60,7 @@
       loadStores() {
         return Promise.all([
           this.$store.dispatch('app/loadState'),
+          this.$store.dispatch('connections/loadState'),
         ]).then(() => {
           this.loading = false;
         });

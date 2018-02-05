@@ -9,18 +9,22 @@ import Vue from 'vue';
 
 /* Files */
 
-const connections = [];
-
-for (let i = 0; i < 5; i += 1) {
-  connections.push({
-    id: `id${i}`,
-    name: `name${i}`,
-  });
-}
-
 export default {
 
   actions: {
+    loadState({ commit }) {
+      const connections = [];
+
+      for (let i = 0; i < 5; i += 1) {
+        connections.push({
+          id: `id${i}`,
+          name: `name${i}`,
+        });
+      }
+
+      commit('update', connections);
+    },
+
     remove({ commit, state }, id) {
       const newState = state.connections.filter(item => item.id !== id);
 
@@ -37,7 +41,7 @@ export default {
   namespaced: true,
 
   state: {
-    connections,
+    connections: [],
   },
 
 };
