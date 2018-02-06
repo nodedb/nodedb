@@ -9,6 +9,7 @@ import * as path from 'path';
 import { app, BrowserWindow } from 'electron'; // eslint-disable-line
 
 /* Files */
+import appStore from '../common/stores/app';
 
 /**
  * Set `__static` path to static files in production
@@ -32,16 +33,42 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     minHeight: 600,
     minWidth: 800,
+    resizable: true,
     useContentSize: true,
   });
 
-  mainWindow.maximize();
-
-  mainWindow.loadURL(winURL);
-
+  /* List for events */
   mainWindow.on('closed', () => {
     mainWindow = null;
-  });
+  }).on('resize', () => new Promise((resolve) => {
+    /* Wrap in setTimeout as isMaximized returns wrong value */
+    setTimeout(() => {
+      const data = [{
+        key: 'size',
+        value: mainWindow.getSize(),
+      }, {
+        key: 'maximized',
+        value: mainWindow.isMaximized(),
+      }];
+
+      resolve(data);
+    }, 0);
+  }).then(data => data
+    .reduce((thenable, { key, value }) => thenable
+      .then(() => appStore.update(key, value)), Promise.resolve())));
+
+  appStore.get()
+    .then(({ maximized = true, size = [] } = {}) => {
+      if (maximized) {
+        mainWindow.maximize();
+      } else {
+        const [width, height] = size;
+
+        mainWindow.setSize(width, height);
+      }
+    });
+
+  mainWindow.loadURL(winURL);
 }
 
 app.on('ready', createWindow);
