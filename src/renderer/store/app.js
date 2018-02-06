@@ -6,6 +6,7 @@
 
 /* Third-party modules */
 import { _ } from 'lodash';
+import Vue from 'vue';
 
 /* Files */
 import appStore from '../../common/stores/app';
@@ -16,11 +17,7 @@ export default {
     loadState({ commit }) {
       return appStore.get()
         .then((data) => {
-          _.each(data, (value, key) => {
-            commit(key, value);
-          });
-
-          return data;
+          commit('update', data);
         });
     },
 
@@ -34,6 +31,12 @@ export default {
   mutations: {
     sidebarWidth(state, width) {
       state.sidebarWidth = width;
+    },
+
+    update(state, data) {
+      _.each(data, (value, key) => {
+        Vue.set(state, key, value);
+      });
     },
   },
 
