@@ -13,7 +13,7 @@ import 'open-sans-fontface/open-sans.css';
 
 /* Files */
 import App from './components/app';
-import router from './router/index';
+import router from './lib/router';
 import store from './store/index';
 
 Vue.use(ElementUI);
