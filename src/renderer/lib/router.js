@@ -18,6 +18,9 @@ export default new Router({
     path: '/query',
     name: 'query',
     component: query,
+    meta: {
+      layout: 'query',
+    },
   }, {
     path: '*',
     redirect: {

@@ -24,13 +24,15 @@
   import { _ } from 'lodash';
 
   /* Files */
-  import defaultLayout from '../layouts/default.vue';
+  import defaultLayout from '../layouts/default';
+  import queryLayout from '../layouts/query';
 
   export default {
     name: 'app',
 
     components: {
       defaultLayout,
+      queryLayout,
     },
 
     created() {
