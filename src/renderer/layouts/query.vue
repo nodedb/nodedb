@@ -27,6 +27,7 @@
             :addable="true",
             :closable="true",
             type="card",
+            @tab-add="newConnection",
             @tab-click="changeTab",
             @tab-remove="removeTab"
           )
@@ -50,6 +51,7 @@
   /* Node modules */
 
   /* Third-party modules */
+  import { ipcRenderer } from 'electron'; // eslint-disable-line
   import Vue from 'vue';
   import { mapState } from 'vuex';
 
@@ -110,6 +112,16 @@
 
       fetchData() {
         this.activeConnection = this.$route.query.id;
+      },
+
+      newConnection() {
+        ipcRenderer.on('new-connection-data', (event, connection) => {
+          console.log({
+            connection,
+          });
+        });
+
+        ipcRenderer.send('new-connection', '/#/login');
       },
 
       removeTab(id) {

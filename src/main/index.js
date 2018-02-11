@@ -3,13 +3,14 @@
  */
 
 /* Node modules */
-import * as path from 'path';
+import path from 'path';
 
 /* Third-party modules */
 import { app, BrowserWindow } from 'electron'; // eslint-disable-line
 
 /* Files */
 import appStore from '../common/stores/app';
+import modal from './modal';
 
 /**
  * Set `__static` path to static files in production
@@ -25,6 +26,8 @@ let mainWindow;
 const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`;
+
+modal(winURL);
 
 function createWindow() {
   /**
