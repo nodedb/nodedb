@@ -51,7 +51,6 @@
   /* Node modules */
 
   /* Third-party modules */
-  import { ipcRenderer } from 'electron'; // eslint-disable-line
   import Vue from 'vue';
   import { mapState } from 'vuex';
 
@@ -82,6 +81,10 @@
 
     created() {
       this.fetchData();
+
+      if (this.connections.length === 0) {
+        // this.newConnection();
+      }
     },
 
     data() {
@@ -115,13 +118,13 @@
       },
 
       newConnection() {
-        ipcRenderer.on('new-connection-data', (event, connection) => {
+        this.$electron.ipcRenderer.on('new-connection-data', (event, connection) => {
           console.log({
             connection,
           });
         });
 
-        ipcRenderer.send('new-connection', '/#/login');
+        this.$electron.ipcRenderer.send('new-connection', '/#/login');
       },
 
       removeTab(id) {
