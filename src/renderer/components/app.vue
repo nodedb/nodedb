@@ -63,6 +63,7 @@
         return Promise.all([
           this.$store.dispatch('app/loadState'),
           this.$store.dispatch('connections/loadState'),
+          this.$store.dispatch('drivers/loadState'),
         ]).then(() => {
           this.loading = false;
         });

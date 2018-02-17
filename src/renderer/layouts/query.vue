@@ -45,7 +45,7 @@
 
 <script>
   /**
-   * q
+   * query
    */
 
   /* Node modules */
