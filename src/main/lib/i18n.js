@@ -47,7 +47,7 @@ export default (logger) => {
         addPath: path.join(rootPath, '{{lng}}', '{{ns}}.missing.json'),
       },
       debug: true,
-      defaultNS: 'common',
+      defaultNS: 'misc',
       fallbackLng: 'en',
       initImmediate: false,
       ns,

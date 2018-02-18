@@ -3,7 +3,7 @@
     .loader(
       v-show="loading"
       v-loading.fullscreen.lock="loading",
-      element-loading-text="@TODO...",
+      :element-loading-text="$t('misc:LOADING') + '...'",
       element-loading-background="rgba(0, 0, 0, 0.8)"
     )
 
