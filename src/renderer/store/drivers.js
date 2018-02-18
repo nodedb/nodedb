@@ -18,6 +18,10 @@ export default {
     loadState() {
       return driversStore.get()
         .then((result) => {
+          if (!Array.isArray(result)) {
+            return [];
+          }
+
           const tasks = result.map(data => this.dispatch('drivers/load', data)
             .catch((err) => {
               // @todo log error
@@ -34,6 +38,11 @@ export default {
               this.commit('drivers/saveDriver', driver);
             }
           });
+        })
+        .catch((err) => {
+          // @todo log error
+          console.error(err);
+          return [];
         });
     },
 
