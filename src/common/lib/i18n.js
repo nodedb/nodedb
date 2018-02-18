@@ -25,7 +25,7 @@ import logger from './logger';
 const logWrapper = level => args => logger[level](...args);
 
 export default () => {
-  const rootPath = path.join(__dirname, '..', '..', 'locales');
+  const rootPath = path.join(__static, 'locales');
 
   /* Treat the en directory as "master" */
   const ns = glob(`${rootPath}/en/*.json`)
