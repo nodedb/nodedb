@@ -1,4 +1,9 @@
 {
+  "ABOUT": "About",
+  "BUGS": "Issues",
+  "FILE": "File",
+  "GITHUB": "GitHub",
+  "HELP": "Help",
   "TOGGLE_DEV_TOOLS": "Toggle Developer Tools",
   "VIEW": "View"
 }

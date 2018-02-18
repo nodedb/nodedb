@@ -5,6 +5,10 @@
   "description": "A cross-platform tool for managing all databases",
   "license": "MIT",
   "main": "./dist/electron/main.js",
+  "homepage": "https://github.com/nodedb/nodedb-js",
+  "bugs": {
+    "url": "https://github.com/nodedb/nodedb-js/issues"
+  },
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
