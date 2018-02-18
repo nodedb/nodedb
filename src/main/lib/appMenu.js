@@ -8,31 +8,25 @@
 import { app, Menu } from 'electron'; // eslint-disable-line
 
 /* Files */
-import i18n from '../common/lib/i18n';
 
 /* Wait until ready */
-app.on('ready', () => {
-  /* Ready is needed before so the locales are set */
-  const t = (...args) => i18n().t(...args);
-
+export default (i18n) => {
   const template = [{
-    label: t('menu:FILE'),
+    label: i18n.t('menu:FILE'),
     submenu: [{
-      label: t('menu:QUIT'),
+      label: i18n.t('menu:QUIT'),
       accelerator: 'CmdOrCtrl+Q',
-      click: () => {
-        app.quit();
-      },
+      click: () => app.quit(),
     }],
   }, {
-    label: t('menu:VIEW'),
+    label: i18n.t('menu:VIEW'),
     submenu: [{
-      label: t('menu:TOGGLE_DEV_TOOLS'),
+      label: i18n.t('menu:TOGGLE_DEV_TOOLS'),
       accelerator: 'CmdOrCtrl+Shift+I',
       click: (menu, mainWindow) => mainWindow.webContents.toggleDevTools(),
     }],
   }];
 
-  const menu = Menu.buildFromTemplate(template); // eslint-disable-line
+  const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
-});
+};

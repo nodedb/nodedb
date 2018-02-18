@@ -9,10 +9,11 @@ import path from 'path';
 import { app, BrowserWindow } from 'electron'; // eslint-disable-line
 
 /* Files */
-import '../common/lib/logger';
-import './appMenu';
+import appMenu from './lib/appMenu';
 import appStore from '../common/stores/app';
-import modal from './modal';
+import i18n from './lib/i18n';
+import Logger from './lib/logger';
+import modal from './lib/modal';
 
 /**
  * Set `__static` path to static files in production
@@ -24,6 +25,10 @@ if (process.env.NODE_ENV !== 'development') {
     .replace(/\\/g, '\\\\');
 }
 
+/* Set global app variables */
+app.logger = new Logger();
+app.i18n = i18n(app.logger);
+
 let mainWindow;
 const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
@@ -32,6 +37,8 @@ const winURL = process.env.NODE_ENV === 'development'
 modal(winURL);
 
 function createWindow() {
+  appMenu(app.i18n);
+
   /**
    * Initial window options
    */

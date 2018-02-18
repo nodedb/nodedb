@@ -57,10 +57,11 @@
     }
   },
   "dependencies": {
+    "@panter/vue-i18next": "^0.9.1",
     "axios": "^0.17.1",
     "better-queue": "^3.8.6",
+    "bunyan": "^1.8.12",
     "electron-json-storage": "^4.0.2",
-    "electron-log": "^2.2.14",
     "element-ui": "^2.1.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^5.0.0",
