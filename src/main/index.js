@@ -10,6 +10,7 @@ import { app, BrowserWindow } from 'electron'; // eslint-disable-line
 
 /* Files */
 import '../common/lib/logger';
+import './appMenu';
 import appStore from '../common/stores/app';
 import modal from './modal';
 
@@ -18,7 +19,7 @@ import modal from './modal';
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = path // eslint-disable-line
+  global.__static = path // eslint-disable-line no-underscore-dangle
     .join(__dirname, '/static')
     .replace(/\\/g, '\\\\');
 }
