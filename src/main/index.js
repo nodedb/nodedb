@@ -9,6 +9,7 @@ import path from 'path';
 import { app, BrowserWindow } from 'electron'; // eslint-disable-line
 
 /* Files */
+import '../common/lib/logger';
 import appStore from '../common/stores/app';
 import modal from './modal';
 
