@@ -10,24 +10,24 @@ import { _ } from 'lodash';
 /* Files */
 import Driver from '../lib/driver';
 import driversStore from '../../common/stores/drivers';
+import logger from '../../common/lib/logger';
 
 export default {
 
   actions: {
 
     loadState() {
+      logger.trigger('info', 'LOAD_ALL_DRIVERS');
+
       return driversStore.get()
         .then((result) => {
           if (!Array.isArray(result)) {
-            return [];
+            return Promise.reject(new Error('INVALID_SAVED_DRIVER_DATA'));
           }
 
           const tasks = result.map(data => this.dispatch('drivers/load', data)
-            .catch((err) => {
-              // @todo log error
-              console.error(err);
-              return null;
-            }));
+            /* Prevent an error failing to load all drivers */
+            .catch(() => null));
 
           return Promise.all(tasks);
         })
@@ -40,13 +40,20 @@ export default {
           });
         })
         .catch((err) => {
-          // @todo log error
-          console.error(err);
+          logger.trigger('warn', 'ERROR_LOADING_DRIVERS', {
+            err: err.stack,
+          });
+
           return [];
         });
     },
 
     load(store, { name, path }) {
+      logger.trigger('info', 'LOAD_DB_DRIVER', {
+        name,
+        path,
+      });
+
       return Promise.resolve()
         .then(() => {
           /* Use window.require so it bypasses Webpack */
@@ -63,6 +70,15 @@ export default {
 
           /* Create instance of driver class */
           return new Driver(name, strategy);
+        })
+        .catch((err) => {
+          logger.trigger('error', 'LOAD_DB_DRIVER_ERROR', {
+            name,
+            path,
+            err,
+          });
+
+          return Promise.reject(err);
         });
     },
 

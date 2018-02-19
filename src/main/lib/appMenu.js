@@ -8,6 +8,7 @@
 import { app, Menu, shell } from 'electron'; // eslint-disable-line
 
 /* Files */
+import Logger from '../../common/lib/logger';
 import pkg from '../../../package';
 
 /* Wait until ready */
@@ -32,6 +33,11 @@ export default (i18n) => {
     }, {
       label: i18n.t('menu:BUGS'),
       click: () => shell.openExternal(pkg.bugs.url),
+    }, {
+      type: 'separator',
+    }, {
+      label: i18n.t('menu:LOGS'),
+      click: () => shell.openItem(Logger.logDir),
     }, {
       type: 'separator',
     }, {

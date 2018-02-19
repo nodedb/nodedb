@@ -15,10 +15,12 @@ import 'open-sans-fontface/open-sans.css';
 /* Files */
 import App from './components/app';
 import i18n from '../common/lib/i18n';
+import Logger from './lib/logger';
 import router from './lib/router';
 import store from './store/index';
 
 Vue.use(ElementUI);
+Vue.use(Logger);
 Vue.use(VueI18Next);
 
 if (!process.env.IS_WEB) {

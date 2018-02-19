@@ -12,7 +12,6 @@ import { app, BrowserWindow } from 'electron'; // eslint-disable-line
 import appMenu from './lib/appMenu';
 import appStore from '../common/stores/app';
 import i18n from './lib/i18n';
-import Logger from './lib/logger';
 import modal from './lib/modal';
 
 /**
@@ -26,8 +25,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 /* Set global app variables */
-app.logger = new Logger();
-app.i18n = i18n(app.logger);
+app.i18n = i18n();
 
 let mainWindow;
 const winURL = process.env.NODE_ENV === 'development'

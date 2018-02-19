@@ -12,8 +12,9 @@ import i18nextFsBackend from 'i18next-sync-fs-backend';
 import i18nextLanguageDetector from 'i18next-electron-language-detector';
 
 /* Files */
+import Logger from '../../common/lib/logger';
 
-export default (logger) => {
+export default () => {
   /**
    * Log Wrapper
    *
@@ -22,7 +23,7 @@ export default (logger) => {
    * @param {string} level
    * @return {*}
    */
-  const logWrapper = level => args => logger.trigger(level, ...args);
+  const logWrapper = level => args => Logger.trigger(level, ...args);
 
   const rootPath = path.join(__static, 'locales');
 
