@@ -24,9 +24,6 @@ if (process.env.NODE_ENV !== 'development') {
     .replace(/\\/g, '\\\\');
 }
 
-/* Set global app variables */
-app.i18n = i18n();
-
 let mainWindow;
 const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
@@ -35,6 +32,9 @@ const winURL = process.env.NODE_ENV === 'development'
 modal(winURL);
 
 function createWindow() {
+  /* Set global app variables - doesn't know locale till now */
+  app.i18n = i18n();
+
   appMenu(app.i18n);
 
   /**
