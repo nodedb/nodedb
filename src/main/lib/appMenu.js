@@ -19,6 +19,15 @@ export default (i18n) => {
       role: 'quit',
     }],
   }, {
+    label: i18n.t('menu:DATABASE'),
+    submenu: [{
+      label: i18n.t('menu:DB_CONNECT'),
+      accelerator: 'CmdOrCtrl+N',
+      click: () => {
+        console.log('new connection');
+      },
+    }],
+  }, {
     label: i18n.t('menu:VIEW'),
     submenu: [{
       label: i18n.t('menu:TOGGLE_DEV_TOOLS'),

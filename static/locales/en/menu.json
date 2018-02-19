@@ -1,6 +1,8 @@
 {
   "ABOUT": "About",
   "BUGS": "Issues",
+  "DATABASE": "Database",
+  "DB_CONNECT": "New Connection",
   "FILE": "File",
   "GITHUB": "GitHub",
   "HELP": "Help",
