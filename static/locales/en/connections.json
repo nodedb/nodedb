@@ -1,0 +1,4 @@
+{
+  "DISCONNECT_BODY": "This will terminate the connection to {{ name }}. Are you sure?",
+  "DISCONNECT_TITLE": "Do you want to disconnect?"
+}

@@ -118,22 +118,27 @@
       },
 
       newConnection() {
-        this.$electron.ipcRenderer.on('new-connection-data', (event, connection) => {
-          console.log({
-            connection,
-          });
-        });
-
-        this.$electron.ipcRenderer.send('new-connection', '/#/login');
       },
 
       removeTab(id) {
-        // @todo i18nify
-        return this.$confirm('question', 'title', {
-          confirmButtonText: 'ok',
-          cancelButtonText: 'cancel',
-          type: 'warning',
-        }).then(() => this.$store.dispatch('connections/remove', id));
+        return this.$store.dispatch('connections/findById', id)
+          .then((connection) => {
+            if (!connection) {
+              return Promise.reject(new Error('UNKNOWN_CONNECTION'));
+            }
+
+            return this.$confirm(
+              this.$i18n.t('connections:DISCONNECT_BODY', { name: connection.name }),
+              this.$i18n.t('connections:DISCONNECT_TITLE'),
+              {
+                confirmButtonText: this.$i18n.t('buttons:OK'),
+                cancelButtonText: this.$i18n.t('buttons:CANCEL'),
+                type: 'warning',
+              },
+            );
+          })
+          .then(() => this.$store.dispatch('connections/remove', id));
+        // @todo redirect if activeConnection is terminated
       },
     },
 
