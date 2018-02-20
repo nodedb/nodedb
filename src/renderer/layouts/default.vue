@@ -37,7 +37,7 @@
             )
 
         el-main
-          router-view
+          router-view( v-show="tabs.length > 0" )
         el-footer( :height="footerHeight + 'px'" ) footer
 </template>
 
@@ -118,15 +118,22 @@
               return Promise.reject(new Error('UNKNOWN_TAB'));
             }
 
-            return this.$confirm(
-              this.$i18n.t('connections:DISCONNECT_BODY', { name: tab.name }),
-              this.$i18n.t('connections:DISCONNECT_TITLE'),
-              {
-                confirmButtonText: this.$i18n.t('buttons:OK'),
-                cancelButtonText: this.$i18n.t('buttons:CANCEL'),
-                type: 'warning',
-              },
-            )
+            return Promise.resolve()
+              .then(() => {
+                if (tab.type !== 'query') {
+                  return undefined;
+                }
+
+                return this.$confirm(
+                  this.$i18n.t('connections:DISCONNECT_BODY', { name: tab.name }),
+                  this.$i18n.t('connections:DISCONNECT_TITLE'),
+                  {
+                    confirmButtonText: this.$i18n.t('buttons:OK'),
+                    cancelButtonText: this.$i18n.t('buttons:CANCEL'),
+                    type: 'warning',
+                  },
+                );
+              })
               .then(() => this.$store.dispatch('tabs/remove', tabId))
               .then(() => {
                 if (this.activeTab !== tabId || this.tabs.length === 0) {

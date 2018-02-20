@@ -5,6 +5,7 @@
 /* Node modules */
 
 /* Third-party modules */
+import uuid from 'uuid';
 import Vue from 'vue';
 
 /* Files */
@@ -15,13 +16,11 @@ export default {
     loadState({ commit }) {
       const tabs = [];
 
-      for (let i = 0; i < 5; i += 1) {
-        tabs.push({
-          id: `id${i}`,
-          name: `name${i}`,
-          type: 'query',
-        });
-      }
+      tabs.push({
+        id: uuid.v4(),
+        name: 'welcome',
+        type: 'query',
+      });
 
       commit('update', tabs);
     },
