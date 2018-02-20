@@ -60,8 +60,8 @@
       loadStores() {
         return Promise.all([
           this.$store.dispatch('app/loadState'),
-          this.$store.dispatch('connections/loadState'),
           this.$store.dispatch('drivers/loadState'),
+          this.$store.dispatch('tabs/loadState'),
         ]).then(() => {
           this.loading = false;
         });

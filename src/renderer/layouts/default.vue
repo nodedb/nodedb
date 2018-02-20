@@ -23,16 +23,14 @@
       el-container
         el-header.tab-bar( :height="tabBarHeight + 'px'" )
           el-tabs(
-            v-model="activeConnection",
-            :addable="true",
+            v-model="activeTab",
             :closable="true",
             type="card",
-            @tab-add="newConnection",
             @tab-click="changeTab",
             @tab-remove="removeTab"
           )
             el-tab-pane(
-              v-for="item in connections",
+              v-for="item in tabs",
               :key="item.id",
               :label="item.name",
               :name="item.id"
@@ -67,10 +65,10 @@
     },
 
     computed: {
-      connections: {
-        get: vm => vm.$store.state.connections.connections,
+      tabs: {
+        get: vm => vm.$store.state.tabs.tabs,
         set(value) {
-          this.$store.commit('connections/update', value);
+          this.$store.commit('tabs/update', value);
         },
       },
 
@@ -81,15 +79,11 @@
 
     created() {
       this.fetchData();
-
-      if (this.connections.length === 0) {
-        // this.newConnection();
-      }
     },
 
     data() {
       return {
-        activeConnection: '',
+        activeTab: '',
         breadcrumbHeight: 30,
         drag: false,
         footerHeight: 30,
@@ -108,37 +102,73 @@
         return this.$router.push({
           name: 'query',
           query: {
-            id: this.activeConnection,
+            tabId: this.activeTab,
           },
         });
       },
 
       fetchData() {
-        this.activeConnection = this.$route.query.id;
+        this.activeTab = this.$route.query.tabId;
       },
 
-      newConnection() {
-      },
-
-      removeTab(id) {
-        return this.$store.dispatch('connections/findById', id)
-          .then((connection) => {
-            if (!connection) {
-              return Promise.reject(new Error('UNKNOWN_CONNECTION'));
+      removeTab(tabId) {
+        return this.$store.dispatch('tabs/findById', tabId)
+          .then(({ index, tab }) => {
+            if (index === -1) {
+              return Promise.reject(new Error('UNKNOWN_TAB'));
             }
 
             return this.$confirm(
-              this.$i18n.t('connections:DISCONNECT_BODY', { name: connection.name }),
+              this.$i18n.t('connections:DISCONNECT_BODY', { name: tab.name }),
               this.$i18n.t('connections:DISCONNECT_TITLE'),
               {
                 confirmButtonText: this.$i18n.t('buttons:OK'),
                 cancelButtonText: this.$i18n.t('buttons:CANCEL'),
                 type: 'warning',
               },
-            );
+            )
+              .then(() => this.$store.dispatch('tabs/remove', tabId))
+              .then(() => {
+                if (this.activeTab !== tabId || this.tabs.length === 0) {
+                  /* No tabs or deleted tab not currently active - do nothing */
+                  return undefined;
+                }
+
+                index -= 1;
+                if (index < 0) {
+                  index = 0;
+                }
+
+                const newTab = this.tabs[index];
+
+                this.activeTab = newTab.id;
+
+                return this.changeTab();
+              });
           })
-          .then(() => this.$store.dispatch('connections/remove', id));
-        // @todo redirect if activeConnection is terminated
+          .catch((err) => {
+            if (err === 'cancel') {
+              /* The confirm was cancelled - it's fine */
+              return;
+            }
+
+            this.showError(err);
+          });
+      },
+
+      showError(err) {
+        this.$log('error', 'DEFAULT_PAGE_GENERAL_ERROR', {
+          err,
+        });
+
+        const code = err.message || err;
+
+        this.$message({
+          duration: 0,
+          message: this.$i18n.t(`error:${code}`),
+          showClose: true,
+          type: 'error',
+        });
       },
     },
 

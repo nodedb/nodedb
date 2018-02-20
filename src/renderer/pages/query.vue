@@ -1,5 +1,5 @@
 <template lang="pug">
-  div query page {{ id }}
+  div query page {{ tabId }}
 </template>
 
 <script>
@@ -22,13 +22,13 @@
 
     data() {
       return {
-        id: '',
+        tabId: '',
       };
     },
 
     methods: {
       fetchData() {
-        this.id = this.$route.query.id;
+        this.tabId = this.$route.query.tabId;
       },
     },
 
