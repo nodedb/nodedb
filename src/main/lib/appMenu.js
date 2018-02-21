@@ -5,14 +5,14 @@
 /* Node modules */
 
 /* Third-party modules */
-import { app, Menu, shell } from 'electron'; // eslint-disable-line
+import { Menu, shell } from 'electron'; // eslint-disable-line
 
 /* Files */
 import Logger from '../../common/lib/logger';
 import pkg from '../../../package';
 
 /* Wait until ready */
-export default (i18n) => {
+export default (i18n, mainWindow) => {
   const template = [{
     label: i18n.t('menu:FILE'),
     submenu: [{
@@ -24,7 +24,9 @@ export default (i18n) => {
       label: i18n.t('menu:DB_CONNECT'),
       accelerator: 'CmdOrCtrl+N',
       click: () => {
-        console.log('new connection');
+        Logger.trigger('info', 'NEW_DB_CONNECTION');
+
+        mainWindow.webContents.send('new-db-connection');
       },
     }],
   }, {

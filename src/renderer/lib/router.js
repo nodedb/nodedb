@@ -9,6 +9,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 /* Files */
+import connection from '../pages/connection';
 import query from '../pages/query';
 import welcome from '../pages/welcome';
 
@@ -16,17 +17,30 @@ Vue.use(Router);
 
 export default new Router({
   routes: [{
-    path: '/',
+    path: '/welcome',
     name: 'welcome',
-    component: welcome,
+    components: {
+      default: welcome,
+    },
+  }, {
+    path: '/connection',
+    name: 'connection',
+    components: {
+      default: connection,
+    },
   }, {
     path: '/query',
     name: 'query',
-    component: query,
+    components: {
+      default: query,
+      sidebar: {
+        template: '<div>@todo</div>',
+      },
+    },
   }, {
     path: '*',
     redirect: {
-      name: 'query',
+      name: 'welcome',
     },
   }],
 });

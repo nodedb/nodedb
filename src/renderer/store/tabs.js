@@ -5,6 +5,7 @@
 /* Node modules */
 
 /* Third-party modules */
+import { _ } from 'lodash';
 import uuid from 'uuid';
 import Vue from 'vue';
 
@@ -13,14 +14,23 @@ import Vue from 'vue';
 export default {
 
   actions: {
+    add({ commit, state }, data) {
+      const id = uuid.v4();
+
+      const newState = _.clone(state.tabs);
+      newState.push({
+        id,
+        name: data.name,
+        route: data.route,
+      });
+
+      commit('update', newState);
+
+      return id;
+    },
+
     loadState({ commit }) {
       const tabs = [];
-
-      tabs.push({
-        id: uuid.v4(),
-        name: 'welcome',
-        type: 'query',
-      });
 
       commit('update', tabs);
     },

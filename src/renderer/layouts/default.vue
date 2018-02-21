@@ -1,6 +1,11 @@
 <template lang="pug">
   el-container.default-layout
-    el-header.icon-bar( :height="iconBar + 'px'" ) icon-bar
+    el-header.icon-bar( :height="iconBar + 'px'" )
+      el-button(
+        type="text"
+        @click="newConnection"
+      )
+        i.fa.fa-plug.fa-lg
     el-header.breadcrumb-bar( height="breadcrumbHeight + 'px'" )
       el-breadcrumb( separator-class="fa fa-angle-right" )
         el-breadcrumb-item part 1
@@ -15,10 +20,10 @@
         resizable,
         v-model="sidebarWidthCurrent"
       )
-        span(
-          v-for="item in 100"
+        router-view(
           slot="content"
-        ) aside {{ item }}<br />
+          name="sidebar"
+        )
 
       el-container
         el-header.tab-bar( :height="tabBarHeight + 'px'" )
@@ -37,7 +42,10 @@
             )
 
         el-main
-          router-view( v-show="tabs.length > 0" )
+          router-view(
+            v-show="tabs.length > 0"
+            name="default"
+          )
         el-footer( :height="footerHeight + 'px'" ) footer
 </template>
 
@@ -54,7 +62,7 @@
 
   /* Files */
   import draggable from 'vuedraggable';
-  import mySidebar from '../components/sidebar.vue';
+  import mySidebar from '../components/sidebar';
 
   export default Vue.extend({
     name: 'default',
@@ -79,6 +87,8 @@
 
     created() {
       this.fetchData();
+
+      this.$electron.ipcRenderer.on('new-db-connection', () => this.newConnection());
     },
 
     data() {
@@ -87,7 +97,7 @@
         breadcrumbHeight: 30,
         drag: false,
         footerHeight: 30,
-        iconBar: 30,
+        iconBar: 40,
         sidebarMin: 100,
         sidebarMax: 500,
         sidebarResizeWidth: 5,
@@ -98,17 +108,40 @@
     },
 
     methods: {
+      addPage(route, name) {
+        const data = {
+          name,
+          route,
+        };
+
+        return this.$store.dispatch('tabs/add', data)
+          .then((tabId) => {
+            this.activeTab = tabId;
+
+            return this.changeTab();
+          });
+      },
+
       changeTab() {
-        return this.$router.push({
-          name: 'query',
-          query: {
-            tabId: this.activeTab,
-          },
-        });
+        return this.$store.dispatch('tabs/findById', this.activeTab)
+          .then((d) => {
+            console.log(d);
+            return d;
+          })
+          .then(({ tab }) => this.$router.push({
+            name: tab.route,
+            query: {
+              tabId: this.activeTab,
+            },
+          }));
       },
 
       fetchData() {
         this.activeTab = this.$route.query.tabId;
+      },
+
+      newConnection() {
+        return this.addPage('connection', 'pages:CONNECTION');
       },
 
       removeTab(tabId) {
@@ -120,7 +153,7 @@
 
             return Promise.resolve()
               .then(() => {
-                if (tab.type !== 'query') {
+                if (tab.route !== 'query') {
                   return undefined;
                 }
 
@@ -196,7 +229,7 @@
 <style lang="scss">
   $breadcrumb-bar-height: 30px;
   $footer-bar-height: 30px;
-  $icon-bar-height: 30px;
+  $icon-bar-height: 40px;
   $tab-bar-height: 40px;
 
   .el-container.default-layout {

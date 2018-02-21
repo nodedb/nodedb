@@ -35,8 +35,6 @@ function createWindow() {
   /* Set global app variables - doesn't know locale till now */
   app.i18n = i18n();
 
-  appMenu(app.i18n);
-
   /**
    * Initial window options
    */
@@ -46,6 +44,8 @@ function createWindow() {
     resizable: true,
     useContentSize: true,
   });
+
+  appMenu(app.i18n, mainWindow);
 
   /* List for events */
   mainWindow.on('closed', () => {
