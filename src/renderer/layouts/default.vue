@@ -108,7 +108,7 @@
     },
 
     methods: {
-      addPage(route, name) {
+      addTab(route, name) {
         const data = {
           name,
           route,
@@ -141,7 +141,7 @@
       },
 
       newConnection() {
-        return this.addPage('connection', 'pages:CONNECTION');
+        return this.addTab('connection', 'pages:CONNECTION');
       },
 
       removeTab(tabId) {
