@@ -178,7 +178,7 @@
       },
 
       newConnection() {
-        return this.addTab('connection', 'tabs:CONNECTION');
+        return this.addTab('login', 'tabs:LOGIN');
       },
 
       removeTab(tabId, displayError = true) {

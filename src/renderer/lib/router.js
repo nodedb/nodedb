@@ -9,7 +9,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 /* Files */
-import connection from '../pages/connection';
+import login from '../pages/login';
 import query from '../pages/query';
 import welcome from '../pages/welcome';
 
@@ -23,10 +23,10 @@ export default new Router({
       default: welcome,
     },
   }, {
-    path: '/connection',
-    name: 'connection',
+    path: '/login',
+    name: 'login',
     components: {
-      default: connection,
+      default: login,
     },
   }, {
     path: '/query',

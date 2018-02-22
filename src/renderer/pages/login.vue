@@ -4,7 +4,7 @@
 
 <script>
   /**
-   * connection
+   * login
    */
 
   /* Node modules */
@@ -14,7 +14,7 @@
   /* Files */
 
   export default {
-    name: 'connection',
+    name: 'login',
   };
 </script>
 
