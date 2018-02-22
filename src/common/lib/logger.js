@@ -45,10 +45,9 @@ export default class Logger {
         level: process.env.NODEDB_CONSOLE_LOG_LEVEL || 'trace',
         stream: process.stdout,
       }, {
-        type: 'rotating-file',
+        type: 'file',
         path: Logger.logPath,
         level: process.env.NODEDB_FILE_LOG_LEVEL || 'warn',
-        period: '1d',
       }],
     });
   }
