@@ -1,5 +1,6 @@
 {
   "name": "nodedb",
+  "productName": "NodeDB",
   "version": "0.0.0",
   "author": "Simon Emms <simon@simonemms.com>",
   "description": "A cross-platform tool for managing all databases",
@@ -74,6 +75,7 @@
     "i18next-electron-language-detector": "^0.0.10",
     "i18next-sync-fs-backend": "^1.0.0",
     "lodash": "^4.17.5",
+    "mousetrap": "^1.6.1",
     "open-sans-fontface": "^1.4.0",
     "uuid": "^3.2.1",
     "vue": "^2.5.13",

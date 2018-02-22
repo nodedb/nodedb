@@ -37,7 +37,7 @@
             el-tab-pane(
               v-for="item in tabs",
               :key="item.id",
-              :label="item.name",
+              :label="$t(item.name)",
               :name="item.id"
             )
 
@@ -57,12 +57,14 @@
   /* Node modules */
 
   /* Third-party modules */
+  import Mousetrap from 'mousetrap';
   import Vue from 'vue';
   import { mapState } from 'vuex';
 
   /* Files */
   import draggable from 'vuedraggable';
   import mySidebar from '../components/sidebar';
+  import pkg from '../../../package.json';
 
   export default Vue.extend({
     name: 'default',
@@ -88,7 +90,12 @@
     created() {
       this.fetchData();
 
-      this.$electron.ipcRenderer.on('new-db-connection', () => this.newConnection());
+      this.$electron.ipcRenderer
+        .on('new-db-connection', () => this.newConnection());
+
+      Mousetrap.bind(['command+w', 'ctrl+w'], () => this.closeActiveTab());
+      Mousetrap.bind(['command+tab', 'ctrl+tab'], () => this.cycleTabs());
+      Mousetrap.bind(['command+shift+tab', 'ctrl+shift+tab'], () => this.cycleTabs(false));
     },
 
     data() {
@@ -124,16 +131,46 @@
 
       changeTab() {
         return this.$store.dispatch('tabs/findById', this.activeTab)
-          .then((d) => {
-            console.log(d);
-            return d;
-          })
-          .then(({ tab }) => this.$router.push({
-            name: tab.route,
-            query: {
-              tabId: this.activeTab,
-            },
-          }));
+          .then(({ tab }) => {
+            this.$router.push({
+              name: tab.route,
+              query: {
+                tabId: this.activeTab,
+              },
+            });
+
+            this.changeTitle(tab.name);
+          });
+      },
+
+      changeTitle(title = null) {
+        const appTitle = pkg.productName || pkg.name;
+        const tabTitle = title ? this.$i18n.t(title) : null;
+        const newTitle = tabTitle ? `${appTitle} - ${tabTitle}` : appTitle;
+
+        document.title = newTitle;
+      },
+
+      closeActiveTab() {
+        return this.removeTab(this.activeTab, false);
+      },
+
+      cycleTabs(forwards = true) {
+        return this.$store.dispatch('tabs/findById', this.activeTab)
+          .then(({ index }) => {
+            let nextIndex = forwards ? index + 1 : index - 1;
+            const highestIndex = this.tabs.length - 1;
+
+            if (nextIndex < 0) {
+              /* Go to end */
+              nextIndex = highestIndex;
+            } else if (nextIndex > highestIndex) {
+              /* Go to start */
+              nextIndex = 0;
+            }
+
+            return this.selectTab(nextIndex);
+          });
       },
 
       fetchData() {
@@ -141,10 +178,10 @@
       },
 
       newConnection() {
-        return this.addTab('connection', 'pages:CONNECTION');
+        return this.addTab('connection', 'tabs:CONNECTION');
       },
 
-      removeTab(tabId) {
+      removeTab(tabId, displayError = true) {
         return this.$store.dispatch('tabs/findById', tabId)
           .then(({ index, tab }) => {
             if (index === -1) {
@@ -169,9 +206,12 @@
               })
               .then(() => this.$store.dispatch('tabs/remove', tabId))
               .then(() => {
-                if (this.activeTab !== tabId || this.tabs.length === 0) {
-                  /* No tabs or deleted tab not currently active - do nothing */
+                if (this.activeTab !== tabId) {
+                  /* Deleted tab not currently active - do nothing */
                   return undefined;
+                } else if (this.tabs.length === 0) {
+                  /* Deleted tab not currently active - change title */
+                  return this.changeTitle();
                 }
 
                 index -= 1;
@@ -192,8 +232,16 @@
               return;
             }
 
-            this.showError(err);
+            if (displayError) {
+              this.showError(err);
+            }
           });
+      },
+
+      selectTab(index) {
+        this.activeTab = this.tabs[index].id;
+
+        return this.changeTab();
       },
 
       showError(err) {
@@ -221,6 +269,23 @@
 
       sidebarWidthCurrent(width) {
         return this.$store.dispatch('app/sidebarWidth', width);
+      },
+
+      tabs(newTabs, oldTabs) {
+        const newTabsLength = newTabs.length;
+        const oldTabsLength = oldTabs.length;
+
+        if (newTabsLength > oldTabsLength) {
+          /* Add new listener */
+          for (let i = oldTabsLength; i < newTabsLength; i += 1) {
+            const keyPress = `alt+${i + 1}`;
+
+            Mousetrap.bind(keyPress, () => this.selectTab(i));
+          }
+        } else {
+          /* Remove listener */
+          Mousetrap.unbind(`alt+${oldTabsLength}`);
+        }
       },
     },
   });

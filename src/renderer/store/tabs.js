@@ -10,11 +10,12 @@ import uuid from 'uuid';
 import Vue from 'vue';
 
 /* Files */
+import Logger from '../../common/lib/logger';
 
 export default {
 
   actions: {
-    add({ commit, state }, data) {
+    add({ dispatch, state }, data) {
       const id = uuid.v4();
 
       const newState = _.clone(state.tabs);
@@ -24,15 +25,28 @@ export default {
         route: data.route,
       });
 
-      commit('update', newState);
-
-      return id;
+      return dispatch('save', newState)
+        .then(() => id);
     },
 
-    loadState({ commit }) {
-      const tabs = [];
+    loadState({ dispatch }) {
+      return Promise.resolve()
+        .then(() => {
+          Logger.trigger('trace', 'LOADING_TABS_FROM_MEMORY');
 
-      commit('update', tabs);
+          const tabs = JSON.parse(sessionStorage.getItem('tabs'));
+
+          if (!Array.isArray(tabs)) {
+            return undefined;
+          }
+
+          return dispatch('save', tabs);
+        })
+        .catch((err) => {
+          Logger.trigger('warn', 'ERROR_LOADING_TABS_FROM_MEMORY', {
+            err,
+          });
+        });
     },
 
     findById({ state }, id) {
@@ -44,10 +58,24 @@ export default {
       };
     },
 
-    remove({ commit, state }, id) {
+    remove({ dispatch, state }, id) {
       const newState = state.tabs.filter(item => item.id !== id);
 
-      commit('update', newState);
+      return dispatch('save', newState);
+    },
+
+    save({ commit }, newState) {
+      return Promise.resolve()
+        .then(() => {
+          sessionStorage.setItem('tabs', JSON.stringify(newState));
+
+          commit('update', newState);
+        })
+        .catch((err) => {
+          Logger.trigger('error', 'ERROR_SAVING_TAB_STATE', {
+            err,
+          });
+        });
     },
   },
 

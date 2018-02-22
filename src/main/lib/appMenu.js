@@ -11,7 +11,6 @@ import { Menu, shell } from 'electron'; // eslint-disable-line
 import Logger from '../../common/lib/logger';
 import pkg from '../../../package';
 
-/* Wait until ready */
 export default (i18n, mainWindow) => {
   const template = [{
     label: i18n.t('menu:FILE'),

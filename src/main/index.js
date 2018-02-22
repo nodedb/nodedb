@@ -12,7 +12,7 @@ import { app, BrowserWindow } from 'electron'; // eslint-disable-line
 import appMenu from './lib/appMenu';
 import appStore from '../common/stores/app';
 import i18n from './lib/i18n';
-import modal from './lib/modal';
+import pkg from '../../package.json';
 
 /**
  * Set `__static` path to static files in production
@@ -29,11 +29,9 @@ const winURL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`;
 
-modal(winURL);
-
 function createWindow() {
   /* Set global app variables - doesn't know locale till now */
-  app.i18n = i18n();
+  const i18next = app.i18n = i18n();
 
   /**
    * Initial window options
@@ -42,10 +40,11 @@ function createWindow() {
     minHeight: 600,
     minWidth: 800,
     resizable: true,
+    title: pkg.productName || pkg.name,
     useContentSize: true,
   });
 
-  appMenu(app.i18n, mainWindow);
+  appMenu(i18next, mainWindow);
 
   /* List for events */
   mainWindow.on('closed', () => {
