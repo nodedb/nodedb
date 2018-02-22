@@ -93,11 +93,4 @@
   a {
     outline: none !important;
   }
-
-  body {
-    font: {
-      family: "Open Sans";
-    }
-    margin: 0;
-  }
 </style>

@@ -1,0 +1,66 @@
+.el-container.default-layout {
+  .el-header.icon-bar {
+    line: {
+      height: $icon-bar-height;
+    }
+  }
+
+  .el-header.breadcrumb-bar {
+    .el-breadcrumb {
+      line: {
+        height: $breadcrumb-bar-height;
+      }
+    }
+  }
+
+  .el-container {
+    height: calc(100vh - #{$icon-bar-height} - #{$breadcrumb-bar-height});
+
+    .sidebar {
+      .content {
+        background: blue;
+      }
+      .resize {
+        background: purple;
+      }
+    }
+
+    .el-container {
+      .el-header.tab-bar {
+        padding: 0;
+        background: orange;
+
+        .el-tabs__new-tab {
+          margin: {
+            right: 10px;
+          }
+        }
+
+        .el-tabs__header {
+          .el-tabs__item {
+            box: {
+              /* Puts a weird box when app loses focus */
+              shadow: none;
+            }
+          }
+        }
+
+        .el-tabs__content {
+          display: none;
+        }
+      }
+
+      .el-main {
+        background: green;
+      }
+
+      .el-footer {
+        line: {
+          height: $footer-bar-height;
+        }
+        background: red;
+      }
+    }
+  }
+
+}

@@ -44,6 +44,7 @@ export default {
 
   state: {
     sidebarWidth: 300,
+    theme: 'default',
   },
 
 };
