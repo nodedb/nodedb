@@ -84,6 +84,12 @@ function electronLog(data, color) {
     log += `  ${line}\n`;
   });
   if (/[0-9A-z]+/.test(log)) {
+    try {
+      log = JSON.stringify(JSON.parse(log), null, 2);
+      log += '\n';
+    } catch (err) {
+      /* Nothing to do */
+    }
     console.log(`${chalk[color].bold('┏ Electron -------------------')
     }\n\n${
       log
