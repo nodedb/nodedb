@@ -18,17 +18,21 @@
 
     .sidebar {
       .content {
-        background: blue;
+        //background: blue;
       }
       .resize {
-        background: purple;
+        //background: purple;
       }
     }
 
     .el-container {
       .el-header.tab-bar {
         padding: 0;
-        background: orange;
+        //background: orange;
+
+        .el-tabs--card > .el-tabs__header {
+          //border: none;
+        }
 
         .el-tabs__new-tab {
           margin: {
@@ -51,7 +55,7 @@
       }
 
       .el-main {
-        background: green;
+        //background: green;
       }
 
       .el-footer {
