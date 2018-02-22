@@ -36,7 +36,7 @@ export default () => {
   i18next
     .use({
       type: 'logger',
-      log: logWrapper('info'),
+      log: logWrapper('trace'),
       warn: logWrapper('warn'),
       error: logWrapper('error'),
     })
