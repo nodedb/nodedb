@@ -18,6 +18,7 @@ import i18n from '../common/lib/i18n';
 import Logger from './lib/logger';
 import router from './lib/router';
 import store from './store/index';
+import '../main.scss';
 
 Vue.use(ElementUI);
 Vue.use(Logger);
