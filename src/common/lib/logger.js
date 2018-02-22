@@ -47,7 +47,7 @@ export default class Logger {
       }, {
         type: 'file',
         path: Logger.logPath,
-        level: process.env.NODEDB_FILE_LOG_LEVEL || 'warn',
+        level: process.env.NODEDB_FILE_LOG_LEVEL || 'info',
       }],
     });
   }
