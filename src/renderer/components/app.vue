@@ -88,6 +88,7 @@
 <style lang="scss">
   * {
     user-select: none;
+    cursor: default;
   }
 
   a {
