@@ -6,13 +6,23 @@
         @click="newConnection"
       )
         i.fa.fa-plug.fa-lg
-    el-header.breadcrumb-bar( height="breadcrumbHeight + 'px'" )
-      el-breadcrumb( separator-class="fa fa-angle-right" )
-        el-breadcrumb-item part 1
-        el-breadcrumb-item part 2
-        el-breadcrumb-item part 3
 
-    el-container
+    el-header.tab-bar( :height="tabBarHeight + 'px'" )
+      el-tabs(
+        v-model="activeTab",
+        :closable="true",
+        type="card",
+        @tab-click="changeTab",
+        @tab-remove="removeTab"
+      )
+        el-tab-pane(
+          v-for="item in tabs",
+          :key="item.id",
+          :label="$t(item.name)",
+          :name="item.id"
+        )
+
+    el-container.body-wrapper
       my-sidebar(
         :defaultWidth="sidebarWidthDefault",
         :max="sidebarMax",
@@ -26,27 +36,12 @@
         )
 
       el-container
-        el-header.tab-bar( :height="tabBarHeight + 'px'" )
-          el-tabs(
-            v-model="activeTab",
-            :closable="true",
-            type="card",
-            @tab-click="changeTab",
-            @tab-remove="removeTab"
-          )
-            el-tab-pane(
-              v-for="item in tabs",
-              :key="item.id",
-              :label="$t(item.name)",
-              :name="item.id"
-            )
-
         el-main
           router-view(
             v-show="tabs.length > 0"
             name="default"
           )
-        el-footer( :height="footerHeight + 'px'" ) footer
+        el-footer( :height="footerHeight + 'px'" ) @todo
 </template>
 
 <script>
@@ -101,7 +96,6 @@
     data() {
       return {
         activeTab: '',
-        breadcrumbHeight: 30,
         drag: false,
         footerHeight: 30,
         iconBar: 40,
@@ -140,7 +134,8 @@
             });
 
             this.changeTitle(tab.name);
-          });
+          })
+          .catch(err => this.showError(err));
       },
 
       changeTitle(title = null) {

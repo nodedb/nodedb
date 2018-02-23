@@ -5,64 +5,81 @@
     }
   }
 
-  .el-header.breadcrumb-bar {
-    .el-breadcrumb {
-      line: {
-        height: $breadcrumb-bar-height;
+  .el-header.tab-bar {
+
+    .el-tabs--card > .el-tabs__header {
+      border: none;
+    }
+
+    .el-tabs__new-tab {
+      margin: {
+        right: 10px;
       }
+    }
+
+    .el-tabs__header {
+      .el-tabs__item {
+        box: {
+          /* Puts a weird box when app loses focus */
+          shadow: none;
+        }
+      }
+    }
+
+    .el-tabs__content {
+      display: none;
     }
   }
 
-  .el-container {
-    height: calc(100vh - #{$icon-bar-height} - #{$breadcrumb-bar-height});
+  .el-container.body-wrapper {
+    height: calc(100vh - #{$icon-bar-height} - #{$tab-bar-height});
 
     .sidebar {
-      .content {
-        //background: blue;
+
+      border: {
+        color: $--border-color-light;
+        style: solid;
+        width: 0;
+
+        top: {
+          width: 1px;
+        }
+
+        right: {
+          width: 1px;
+        }
       }
+
+      .content {
+        padding: $--header-padding;
+      }
+
       .resize {
-        //background: purple;
+        background: {
+          color: $--border-color-light;
+        }
       }
     }
 
     .el-container {
-      .el-header.tab-bar {
-        padding: 0;
-        //background: orange;
-
-        .el-tabs--card > .el-tabs__header {
-          //border: none;
-        }
-
-        .el-tabs__new-tab {
-          margin: {
-            right: 10px;
-          }
-        }
-
-        .el-tabs__header {
-          .el-tabs__item {
-            box: {
-              /* Puts a weird box when app loses focus */
-              shadow: none;
-            }
-          }
-        }
-
-        .el-tabs__content {
-          display: none;
-        }
-      }
-
       .el-main {
-        //background: green;
+        border: {
+          top: {
+            color: $--border-color-light;
+            style: solid;
+            width: 1px;
+          }
+        }
       }
 
       .el-footer {
+        font: {
+          size: $--font-size-small;
+        }
+
         line: {
           height: $footer-bar-height;
         }
-        background: red;
       }
     }
   }

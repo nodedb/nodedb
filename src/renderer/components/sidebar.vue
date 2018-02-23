@@ -1,7 +1,7 @@
 <template lang="pug">
   .sidebar
     el-aside.content( :width="value + 'px'" )
-      slot( name="content" )
+      div( v-for="i in 10" ) {{ i }}
 
     el-aside.resize(
       v-if="resizable",
@@ -103,5 +103,4 @@
       }
     }
   }
-
 </style>

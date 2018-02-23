@@ -10,6 +10,11 @@
   "bugs": {
     "url": "https://github.com/nodedb/nodedb-js/issues"
   },
+  "copyright": {
+
+    "author": "Simon Emms",
+    "year": "2018"
+  },
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
