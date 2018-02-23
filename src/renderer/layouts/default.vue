@@ -70,6 +70,7 @@
     },
 
     computed: {
+      sidebarWidthCurrent: vm => vm.$store.state.app.sidebarWidth,
       tabs: {
         get: vm => vm.$store.state.tabs.tabs,
         set(value) {
@@ -102,33 +103,34 @@
         sidebarMin: 100,
         sidebarMax: 500,
         sidebarResizeWidth: 5,
-        sidebarWidthCurrent: this.$store.state.app.sidebarWidth,
         sidebarWidthDefault: 300,
         tabBarHeight: 40,
       };
     },
 
     methods: {
-      addTab(route, name) {
-        const data = {
+      addTab(route, name, data = {}) {
+        const tab = {
           name,
           route,
+          data,
         };
 
-        return this.$store.dispatch('tabs/add', data)
+        return this.$store.dispatch('tabs/add', tab)
           .then((tabId) => {
             this.activeTab = tabId;
 
             return this.changeTab();
-          });
+          })
+          .catch(err => this.showError(err));
       },
 
       changeTab() {
         return this.$store.dispatch('tabs/findById', this.activeTab)
-          .then(({ tab }) => {
+          .then(({ tab } = {}) => {
             this.$router.push({
               name: tab.route,
-              query: {
+              params: {
                 tabId: this.activeTab,
               },
             });
@@ -141,9 +143,8 @@
       changeTitle(title = null) {
         const appTitle = pkg.productName || pkg.name;
         const tabTitle = title ? this.$i18n.t(title) : null;
-        const newTitle = tabTitle ? `${appTitle} - ${tabTitle}` : appTitle;
 
-        document.title = newTitle;
+        document.title = tabTitle ? `${appTitle} - ${tabTitle}` : appTitle;
       },
 
       closeActiveTab() {
@@ -165,11 +166,12 @@
             }
 
             return this.selectTab(nextIndex);
-          });
+          })
+          .catch(err => this.showError(err));
       },
 
       fetchData() {
-        this.activeTab = this.$route.query.tabId;
+        this.activeTab = this.$route.params.tabId;
       },
 
       newConnection() {
