@@ -23,13 +23,13 @@ export default new Router({
       default: welcome,
     },
   }, {
-    path: '/login',
+    path: '/login/:tabId',
     name: 'login',
     components: {
       default: login,
     },
   }, {
-    path: '/query',
+    path: '/query/:tabId',
     name: 'query',
     components: {
       default: query,
