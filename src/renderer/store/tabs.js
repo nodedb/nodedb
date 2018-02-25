@@ -15,14 +15,17 @@ import Logger from '../../common/lib/logger';
 export default {
 
   actions: {
-    add({ dispatch, state }, data) {
+    add({ dispatch, state }, tab) {
       const id = uuid.v4();
+
+      const { data = {}, name, route } = tab;
 
       const newState = _.clone(state.tabs);
       newState.push({
         id,
-        name: data.name,
-        route: data.route,
+        data,
+        name,
+        route,
       });
 
       return dispatch('save', newState)
@@ -49,14 +52,7 @@ export default {
         });
     },
 
-    findById({ state }, id) {
-      const index = state.tabs.findIndex(item => item.id === id);
-
-      return {
-        index,
-        tab: state.tabs[index],
-      };
-    },
+    findById: ({ getters }, id) => getters.findById(id),
 
     remove({ dispatch, state }, id) {
       const newState = state.tabs.filter(item => item.id !== id);
@@ -76,6 +72,26 @@ export default {
             err,
           });
         });
+    },
+
+    updateTabData({ dispatch, state }, { id, item, value }) {
+      const newState = _.cloneDeep(state.tabs);
+      const index = newState.findIndex(item => item.id === id);
+
+      _.set(newState[index], `data.${item}`, value);
+
+      return dispatch('save', newState);
+    },
+  },
+
+  getters: {
+    findById: state => (id) => {
+      const index = state.tabs.findIndex(item => item.id === id);
+
+      return {
+        index,
+        tab: state.tabs[index] || {},
+      };
     },
   },
 

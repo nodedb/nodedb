@@ -19,7 +19,8 @@
 
       el-form-item( :label="$t('drivers:SELECT_DRIVER')" )
         el-select(
-          v-model="form.driver"
+          :value="form.driver"
+          @input="updateForm('driver', $event)"
           :placeholder="$t('drivers:SELECT_DRIVER')"
         )
           el-option(
@@ -47,6 +48,7 @@
   /* Node modules */
 
   /* Third-party modules */
+  import { mapState } from 'vuex';
 
   /* Files */
   import loginForm from '../components/login';
@@ -59,21 +61,18 @@
     },
 
     computed: {
+      ...mapState({
+        form(state, getters) {
+          return getters['tabs/findById'](this.tabId).tab.data;
+        },
+      }),
       drivers: vm => vm.$store.state.drivers.drivers,
       tabId: vm => vm.$route.params.tabId,
-    },
-
-    created() {
-      console.log(this.tabId);
     },
 
     data() {
       return {
         active: null,
-        form: {
-          connection: {},
-          driver: null,
-        },
         labelWidth: 120,
       };
     },
@@ -83,12 +82,12 @@
         console.log('submit');
         console.log(this.form);
       },
-    },
 
-    watch: {
-      tabId(id) {
-        console.log({
-          id,
+      updateForm(item, value) {
+        return this.$store.dispatch('tabs/updateTabData', {
+          id: this.tabId,
+          item,
+          value,
         });
       },
     },
