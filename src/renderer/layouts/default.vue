@@ -279,7 +279,7 @@
 
             Mousetrap.bind(keyPress, () => this.selectTab(i));
           }
-        } else {
+        } else if (newTabsLength < oldTabsLength) {
           /* Remove listener */
           Mousetrap.unbind(`alt+${oldTabsLength}`);
         }
