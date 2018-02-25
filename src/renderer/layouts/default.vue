@@ -38,7 +38,7 @@
       el-container
         el-main
           router-view(
-            v-show="tabs.length > 0"
+            v-if="tabs.length > 0"
             name="default"
           )
         el-footer( :height="footerHeight + 'px'" ) @todo
