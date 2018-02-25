@@ -84,6 +84,12 @@ export default {
 
   },
 
+  getters: {
+
+    getDriverById: state => id => state.drivers.find(item => item.id === id),
+
+  },
+
   mutations: {
 
     saveDriver(state, driver) {
