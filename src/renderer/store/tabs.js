@@ -90,7 +90,7 @@ export default {
 
       return {
         index,
-        tab: state.tabs[index] || {},
+        tab: state.tabs[index],
       };
     },
   },

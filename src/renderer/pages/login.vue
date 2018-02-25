@@ -48,6 +48,7 @@
   /* Node modules */
 
   /* Third-party modules */
+  import { _ } from 'lodash';
   import { mapState } from 'vuex';
 
   /* Files */
@@ -63,7 +64,9 @@
     computed: {
       ...mapState({
         form(state, getters) {
-          return getters['tabs/findById'](this.tabId).tab.data;
+          const { tab } = getters['tabs/findById'](this.tabId);
+
+          return _.isObject(tab) ? tab.data : {};
         },
       }),
       drivers: vm => vm.$store.state.drivers.drivers,
