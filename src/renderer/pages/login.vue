@@ -169,7 +169,7 @@
 
     watch: {
       activeDriver(newDriver, oldDriver) {
-        if (newDriver.id === oldDriver.id) {
+        if (newDriver && oldDriver && newDriver.id === oldDriver.id) {
           return Promise.resolve();
         }
 
