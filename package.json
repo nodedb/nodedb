@@ -1,6 +1,5 @@
 {
   "name": "nodedb",
-  "productName": "NodeDB",
   "version": "0.0.0",
   "author": "Simon Emms <simon@simonemms.com>",
   "description": "A cross-platform tool for managing all databases",
@@ -33,7 +32,7 @@
     "watch:test:unit": "npm run -s test:unit -- --auto-watch --no-single-run"
   },
   "build": {
-    "productName": "nodedb",
+    "productName": "NodeDB",
     "appId": "org.simulatedgreg.electron-vue",
     "directories": {
       "output": "build"
@@ -63,7 +62,8 @@
       "icon": "build/icons/icon.ico"
     },
     "linux": {
-      "icon": "build/icons"
+      "icon": "build/icons",
+      "category": "Development"
     }
   },
   "dependencies": {

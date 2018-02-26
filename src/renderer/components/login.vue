@@ -7,6 +7,7 @@
       el-form-item(
         v-if="item.label"
         :label="$t('form:' + item.label)"
+        :prop="keyPrepend + item.key"
       )
 
         component(
@@ -77,6 +78,11 @@
       form: {
         required: true,
         type: Array,
+      },
+
+      keyPrepend: {
+        type: String,
+        default: '',
       },
 
       model: {

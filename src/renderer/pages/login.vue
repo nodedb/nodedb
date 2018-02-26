@@ -14,6 +14,7 @@
       ref="form"
       :model="form"
       :label-width="labelWidth + 'px'"
+      :rules="rules"
     )
 
       el-form-item( :label="$t('drivers:SELECT_DRIVER')" )
@@ -30,8 +31,9 @@
           )
 
       login-form(
-        :enter="onSubmit"
+        :enter="submit"
         :form="loginForm"
+        keyPrepend="connection.",
         :model="form.connection"
         :update="(key, value) => updateForm('connection.' + key, value)"
       )
@@ -39,10 +41,12 @@
       el-form-item
         el-button(
           type="primary"
-          @click="onSubmit"
+          @click="submit"
         ) @todo
 
-        el-button Cancel
+        el-button(
+          @click="reset"
+        ) @todo - reset
 </template>
 
 <script>
@@ -97,7 +101,28 @@
           const form = vm.activeDriver.getLoginForm();
 
           vm.form.connection = form.reduce((result, item) => {
-            result[item.key] = vm.form.connection[item.key] || item.default || null;
+            let value = vm.form.connection[item.key];
+
+            if (value === undefined) {
+              value = item.default;
+            }
+
+            result[item.key] = value;
+
+            const key = `connection.${item.key}`;
+
+            if (!Array.isArray(vm.rules[key])) {
+              vm.rules[key] = [];
+            }
+
+            if (item.required) {
+              vm.rules[key].push({
+                required: true,
+                message: vm.$i18n.t('error:FORM_REQUIRED'),
+                trigger: 'blur',
+              });
+            }
+
             return result;
           }, {});
 
@@ -113,13 +138,24 @@
       return {
         active: null,
         labelWidth: 120,
+        rules: {},
       };
     },
 
     methods: {
-      onSubmit() {
-        // console.log('submit');
-        // console.log(this.form);
+      reset() {
+        return this.loginForm.reduce((thenable, item) => thenable
+          .then(() => {
+            this.updateForm(`connection.${item.key}`, undefined);
+          }), Promise.resolve());
+      },
+
+      submit() {
+        this.$refs.form.validate((valid) => {
+          console.log({
+            valid,
+          });
+        });
       },
 
       updateForm(item, value) {
@@ -128,6 +164,16 @@
           item,
           value,
         });
+      },
+    },
+
+    watch: {
+      activeDriver(newDriver, oldDriver) {
+        if (newDriver.id === oldDriver.id) {
+          return Promise.resolve();
+        }
+
+        return this.reset();
       },
     },
   };

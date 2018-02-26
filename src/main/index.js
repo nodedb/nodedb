@@ -40,7 +40,7 @@ function createWindow() {
     minHeight: 600,
     minWidth: 800,
     resizable: true,
-    title: pkg.productName || pkg.name,
+    title: pkg.build.productName || pkg.name,
     useContentSize: true,
   });
 

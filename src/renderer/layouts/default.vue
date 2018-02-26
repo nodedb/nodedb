@@ -141,7 +141,7 @@
       },
 
       changeTitle(title = null) {
-        const appTitle = pkg.productName || pkg.name;
+        const appTitle = pkg.build.productName || pkg.name;
         const tabTitle = title ? this.$i18n.t(title) : null;
 
         document.title = tabTitle ? `${appTitle} - ${tabTitle}` : appTitle;
