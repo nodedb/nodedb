@@ -146,6 +146,11 @@
       tabId: vm => vm.$route.params.tabId,
     },
 
+    created() {
+      const mysql = window.require('/home/semms/Documents/Development/NodeDB/mysql');
+      console.log(mysql);
+    },
+
     data() {
       return {
         active: null,
