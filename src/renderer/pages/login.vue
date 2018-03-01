@@ -1,6 +1,15 @@
 <template lang="pug">
   div
     el-alert(
+      v-if="error"
+      :title="$t('error:CONNECTION')"
+      type="error"
+      show-icon
+      :closable="false"
+    )
+      p.el-alert__description {{ error.message }}
+
+    el-alert(
       v-if="drivers.length === 0"
       :title="$t('drivers:NO_DRIVERS_INSTALLED_TITLE')"
       type="warning"
@@ -42,10 +51,13 @@
         el-button(
           type="primary"
           @click="submit"
+          :loading="loggingIn"
+          round
         ) @todo
 
         el-button(
           @click="reset"
+          round
         ) @todo - reset
 </template>
 
@@ -137,7 +149,9 @@
     data() {
       return {
         active: null,
+        error: null,
         labelWidth: 120,
+        loggingIn: false,
         rules: {},
       };
     },
@@ -151,11 +165,49 @@
       },
 
       submit() {
-        this.$refs.form.validate((valid) => {
-          console.log({
-            valid,
+        const model = {
+          connection: this.form.connection,
+          name: this.form.driver,
+        };
+
+        console.log(model);
+
+        this.error = null;
+        this.loggingIn = true;
+
+        return this.$refs.form.validate()
+          .then(() => {
+            this.$log('trace', 'NEW_CONNECTION_ATTEMPT', {
+              model,
+            });
+
+            return this.activeDriver
+              .setConnection(model.connection)
+              .connect();
+          })
+          .then((...args) => {
+            console.log({
+              args,
+            });
+          })
+          .catch((err) => {
+            if (err === false) {
+              /* Invalid form */
+              this.$log('debug', 'NEW_CONNECTION_FORM_INVALID', {
+                err,
+              });
+              return;
+            }
+
+            this.$log('error', 'NEW_CONNECTION_ATTEMPT_FAILED', {
+              err,
+            });
+
+            this.error = err;
+          })
+          .then(() => {
+            this.loggingIn = false;
           });
-        });
       },
 
       updateForm(item, value) {
@@ -183,6 +235,13 @@
 
   .el-select, .el-input {
     width: 100%;
+  }
+
+  .el-alert {
+    margin: {
+      bottom: 15px;
+      // replace with $--msgbox-padding-primary
+    }
   }
 
 </style>

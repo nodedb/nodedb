@@ -137,6 +137,16 @@ export default class Driver {
     return this;
   }
 
+  /**
+   * Set DB
+   *
+   * Connects the instance to a specific
+   * database name
+   *
+   * @param {*} connection
+   * @param {string} db
+   * @return {Promise<void>}
+   */
   setDb(connection, db) {
     return Promise.resolve()
       .then(() => this.inst.setDb(connection, db));
