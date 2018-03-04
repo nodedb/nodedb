@@ -9,10 +9,6 @@
   "bugs": {
     "url": "https://github.com/nodedb/nodedb-js/issues"
   },
-  "copyright": {
-    "author": "Simon Emms",
-    "year": "2018"
-  },
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
@@ -32,7 +28,6 @@
   },
   "build": {
     "productName": "NodeDB",
-    "appId": "org.simulatedgreg.electron-vue",
     "directories": {
       "output": "build"
     },
@@ -62,7 +57,34 @@
     },
     "linux": {
       "icon": "build/icons",
-      "category": "Development"
+      "category": "Development",
+      "target": [{
+        "target": "zip",
+        "arch": [
+          "x64",
+          "ia32",
+          "armv7l"
+        ]
+      }, {
+        "target": "AppImage",
+        "arch": [
+          "x64",
+          "ia32",
+          "armv7l"
+        ]
+      }, {
+        "target": "deb",
+        "arch": [
+          "x64",
+          "ia32"
+        ]
+      }, {
+        "target": "rpm",
+        "arch": [
+          "x64",
+          "ia32"
+        ]
+      }]
     }
   },
   "dependencies": {
