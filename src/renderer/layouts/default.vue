@@ -2,7 +2,7 @@
   el-container.default-layout
     el-header.icon-bar( :height="iconBar + 'px'" )
       el-button(
-        type="text"
+        type="text",
         @click="newConnection"
       )
         i.fa.fa-plug.fa-lg
