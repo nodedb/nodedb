@@ -70,7 +70,12 @@
     },
 
     computed: {
-      sidebarWidthCurrent: vm => vm.$store.state.app.sidebarWidth,
+      sidebarWidthCurrent: {
+        get: vm => vm.$store.state.app.sidebarWidth,
+        set(value) {
+          this.$store.dispatch('app/sidebarWidth', value);
+        },
+      },
       tabs: {
         get: vm => vm.$store.state.tabs.tabs,
         set(value) {
