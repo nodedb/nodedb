@@ -73,7 +73,7 @@
       sidebarWidthCurrent: {
         get: vm => vm.$store.state.app.sidebarWidth,
         set(value) {
-          this.$store.dispatch('app/sidebarWidth', value);
+          return this.$store.dispatch('app/sidebarWidth', value);
         },
       },
       tabs: {
