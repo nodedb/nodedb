@@ -48,9 +48,9 @@ export default {
         });
     },
 
-    load(store, { name, path }) {
+    load(store, { id, path }) {
       logger.trigger('info', 'LOAD_DB_DRIVER', {
-        name,
+        id,
         path,
       });
 
@@ -69,11 +69,11 @@ export default {
           }
 
           /* Create instance of driver class */
-          return new Driver(name, strategy);
+          return new Driver(id, strategy);
         })
         .catch((err) => {
           logger.trigger('error', 'LOAD_DB_DRIVER_ERROR', {
-            name,
+            id,
             path,
             err,
           });
