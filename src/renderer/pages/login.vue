@@ -1,12 +1,10 @@
 <template lang="pug">
-  div
-    div default layout
-    router-view
+  div login
 </template>
 
 <script>
   /**
-   * default
+   * login
    */
 
   /* Node modules */
@@ -16,13 +14,10 @@
   /* Files */
 
   export default {
-    name: 'default',
-
-    created() {
-      console.log('hello world');
-    },
+    name: 'login',
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+
 </style>

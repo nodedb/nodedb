@@ -9,7 +9,9 @@ import * as path from 'path';
 import { app, BrowserWindow } from 'electron'; // eslint-disable-line
 
 /* Files */
+import appMenu from './lib/appMenu';
 import appStore from '../common/stores/app';
+import i18n from './lib/i18n';
 
 /**
  * Set `__static` path to static files in production
@@ -37,7 +39,12 @@ function createWindow() {
     useContentSize: true,
   });
 
-  /* List for events */
+  /* Set global app variables - doesn't know locale till now */
+  const i18next = app.i18n = i18n();
+
+  appMenu(i18next, mainWindow);
+
+  /* Listen for events */
   mainWindow.on('closed', () => {
     mainWindow = null;
   }).on('resize', () => new Promise((resolve) => {

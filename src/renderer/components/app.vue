@@ -2,9 +2,6 @@
   #app
     .loader(
       v-show="loading"
-      v-loading.fullscreen.lock="loading",
-      element-loading-text="@TODO...",
-      element-loading-background="rgba(0, 0, 0, 0.8)"
     )
 
     component(
@@ -85,18 +82,4 @@
 </script>
 
 <style lang="scss">
-  * {
-    user-select: none;
-  }
-
-  a {
-    outline: none !important;
-  }
-
-  body {
-    font: {
-      family: "Open Sans";
-    }
-    margin: 0;
-  }
 </style>

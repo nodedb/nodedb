@@ -9,19 +9,19 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 /* Files */
-import query from '../pages/query';
+import login from '../pages/login';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [{
-    path: '/query',
-    name: 'query',
-    component: query,
+    path: '/login',
+    name: 'login',
+    component: login,
   }, {
     path: '*',
     redirect: {
-      name: 'query',
+      name: 'login',
     },
   }],
 });
